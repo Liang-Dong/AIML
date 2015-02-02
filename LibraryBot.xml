@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Library Chatting robot model with AIML 2.0-->
+<aiml version="2.0">
+	<category>
+	    <pattern>Hello!</pattern>
+	    <template>Hello. What can I do for you?</template>
+	</category>
+	        
+	<category>
+	    <pattern>Hi, Bot!</pattern>
+	    <template>Hi, 
+	        <condition name="gender">
+	            <li value="Male">Mr.<get name="username"></get>!</li>
+	            <li value="Female">Miss.<get name="username"></get>!</li>
+	            <li> Visitor!</li>
+	        </condition>
+	    </template>
+	</category>
+
+        
+        <!-- <set> Tag is a new feature of aiml 2.0, which denotes a Set -->
+        <!-- Background: every zone of PKU Lib opens at 8 -->
+	<category>
+    	<pattern>When <set>zoneInLib</set>> open #</pattern>
+    	<template>
+        	<star/> opens at 8 o'clock.
+    	</template>
+	</category>
+
+			<!-- <map> Tag is a new feature of aiml 2.0, which denotes a Met -->
+			<!-- Background: different zone of PKU Lib closes at different time -->
+	<category>
+    	<pattern>When <set>zoneInLib</set> close #</pattern>  
+		<template>
+	    	<star/>closes at
+	    	<map name="zoneClosetime"><star/></map>    
+		</template>
+	<category>
+	
+	    
+<topic name="HOW MANY BOOKS CAN I KEEP">
+    <category>
+        <!-- # are one of new wildcards that match 0 or more words in aiml 2.0-->
+        <pattern>How many books can I borrow #</pattern>
+        <template>
+            <condition name="grade">
+                <li value="teacher">You can keep 10 books at the same time.</li>
+	            <li value="graduate">You can keep 10 books at the same time.</li>
+	            <li value="undergraduate">You can keep 5 books at the same time</li>
+	            <li>Could you tell me if you are a graduate, undergraduate or a teacher at PKU?</li>
+	        </condition>
+	    </template>
+	</category>
+	<category>
+	    <pattern># <set>studentAndFaculty</set> #</pattern>
+	    	<that>Could you tell me whether you are a graduate or undergraduate at PKU?</that>
+	    <template>
+	        <think>
+	            <!-- Migrating from attributes to tags in AIML 2.0 -->
+	            <set><name>grade</name></set><star index="2"/>
+	            <srai>How many books can I borrow?</srai></set>
+	        </think>
+		</template>
+	</category>
+	<category>
+	    <pattern># <set>wordsIndicatingNo</set> #</pattern>
+	   		<that>Could you tell me whether you are a graduate or undergraduate at PKU?</that>
+	    <template>
+	        I'm sorry, but you can not borrow a book.
+	    </template>
+	</category>    
+</topic>      
+
+<topic name="EDUCATIONAL TECHNOLOGY">
+    <category>
+        <pattern>What * educational technology #</pattern>
+        <template>
+            <!-- <sraix> is a new AIML 2.0 tag allowing a bot to access other AIML bots  -->
+            <sraix botid="botId" host="botHost">
+                What <star/> educational technology <star index="2"/>
+            </sraix>
+            <sraix default="Sorry, but I do not know the answer either.">
+            </sraix>
+        </template>
+    </category>
+</topic>
+
+</aiml>
